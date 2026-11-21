@@ -7,3 +7,4 @@ langchain-ollama
 pypdf
 faiss-cpu
 python-dotenv
+requests
