@@ -18,6 +18,13 @@ A single-file Retrieval-Augmented Generation (RAG) web application built with **
 
 ---
 
+## 📸 Demo
+
+### How It Works
+![How Multi-PDF RAG Works](assets/rag-architecture.jpg)
+
+---
+
 ## 🏗️ Architecture
 
 | Stage | Implementation |
@@ -37,8 +44,40 @@ A single-file Retrieval-Augmented Generation (RAG) web application built with **
 ```bash
 git clone [https://github.com/udhayakumarpanneerselvamuk-eng/multi-pdf-rag-app.git](https://github.com/udhayakumarpanneerselvamuk-eng/multi-pdf-rag-app.git)
 cd multi-pdf-rag-app
+```
 
-## 📸 Demo
+### 2. Create a Virtual Environment & Install Dependencies
+```bash
+python -m venv venv
+# Windows (PowerShell):
+venv\Scripts\Activate.ps1
+# macOS / Linux:
+source venv/bin/activate
 
-### How It Works
-![How Multi-PDF RAG Works](assets/rag-architecture.jpg)
+pip install -r requirements.txt
+```
+
+### 3. Run the App
+```bash
+streamlit run rag_app.py
+```
+
+### 4. Choose Your Provider in the Sidebar
+- **Option A — Free Local (Ollama):** Install [Ollama](https://ollama.com/download), start it, select **Ollama (Free Local)** in the sidebar, and click **⬇️ Download Missing Models** directly in the UI.
+- **Option B — OpenAI (Low Cost):** Paste your OpenAI API key into the sidebar input box (or save `OPENAI_API_KEY=sk-...` in a local `.env` file).
+
+---
+
+## 🧠 Design Decisions ("Think It Through")
+
+- **Handling Contradictions Across PDFs:** When multiple documents live in one vector store, older and newer policies can conflict. The system prompt strictly forbids silently choosing one answer and instructs the LLM to report both claims with their exact file names and page numbers.
+- **Preventing Fragmented Citations:** Using `chunk_size=1000`, `chunk_overlap=150`, and MMR retrieval keeps paragraphs intact so answers cite 1–2 focused pages instead of scattering across 5 tiny fragments.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Streamlit
+- **Orchestration:** LangChain (`langchain`, `langchain-openai`, `langchain-ollama`, `langchain-community`, `langchain-text-splitters`)
+- **Vector Database:** FAISS (`faiss-cpu`)
+- **PDF Parsing:** PyPDF (`pypdf`)
