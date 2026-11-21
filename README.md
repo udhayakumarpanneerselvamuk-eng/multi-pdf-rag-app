@@ -40,8 +40,5 @@ cd multi-pdf-rag-app
 
 ## 📸 Demo
 
-### App Screenshot (Answer with Sources)
-![Multi-PDF RAG Screenshot](assets/demo-screenshot.png)
-
 ### How It Works
 ![How Multi-PDF RAG Works](assets/rag-architecture.jpg)
