@@ -1,28 +1,39 @@
 # 📚 Multi-PDF RAG App with Sources
 
-A single-file Retrieval-Augmented Generation (RAG) web application built with **Streamlit**, **LangChain**, and **FAISS**. Upload multiple PDFs at once, index them into a unified vector store, and ask questions with exact **file name and page number** citations.
+A single-file Retrieval-Augmented Generation (RAG) web application built with **Streamlit**, **LangChain**, and **FAISS**. Upload multiple PDFs at once, index them into one unified vector database, and ask questions with exact **file name and page number** citations.
+
+**🌐 Live App:** [Launch Multi-PDF RAG App](https://multi-pdf-rag-app-nslb9ngrg2pkk8daxcmnwu.streamlit.app/) *(Bring Your Own OpenAI API Key)*
+
+---
 
 ## ✨ Key Features
-- **Multi-PDF Batch Upload:** Index multiple PDF documents into a single FAISS vector database stored in `st.session_state`.
-- **Exact Source Attribution:** Every answer displays deduplicated `filename - page X` badges plus an expandable excerpt inspector for verification.
-- **Conflict-Aware Prompting:** Explicitly surfaces disagreements when two documents state conflicting facts instead of silently picking one.
-- **Dual Provider Support (Cost-Optimized):**
-  - **Ollama (Free Local):** `llama3.2` + `nomic-embed-text` for $0 development and testing.
-  - **OpenAI (Low Cost):** `gpt-4o-mini` / `gpt-6-luna` + `text-embedding-3-small` for fast, low-cost production queries.
-- **Tunable Chunking & MMR Retrieval:** Uses `RecursiveCharacterTextSplitter` (default `1000` chunk size, `150` overlap) and Maximal Marginal Relevance (MMR) to avoid fragmented, repetitive citations.
 
-## 🛠️ Tech Stack
-- Python, Streamlit
-- LangChain (`langchain-openai`, `langchain-ollama`, `langchain-community`, `langchain-text-splitters`)
-- FAISS (`faiss-cpu`)
-- PyPDF (`pypdf`)
+- **Multi-PDF Batch Indexing:** Upload multiple PDF documents at once and embed them into a single in-memory **FAISS** vector store stored in `st.session_state`, with live chunk-count reporting.
+- **Verifiable Source Citations:** Every answer displays deduplicated `filename - page X` badges (1-indexed) alongside an expandable **Inspect retrieved excerpts** panel.
+- **MMR Retrieval:** Uses **Maximal Marginal Relevance (`search_type="mmr"`)** instead of basic similarity search to retrieve diverse, non-redundant chunks across documents.
+- **Conflict-Aware Prompting:** Explicitly surfaces disagreements when two uploaded PDFs state conflicting facts—quoting what each file and page says rather than silently picking one.
+- **Dual-Provider, Cost-Conscious Design:**
+  - **OpenAI (Live Web App — BYOK):** Visitors enter their own OpenAI API key in the masked sidebar input (kept only in their browser session). Uses low-cost `gpt-4o-mini` + `text-embedding-3-small`.
+  - **Ollama (100% Free Local Mode):** Automatically detects a local Ollama instance, checks for required models (`llama3.2`, `qwen2.5:3b`, `mistral`, and `nomic-embed-text`), and provides a **one-click in-app model downloader** with a live progress bar.
 
-## 🚀 Getting Started
+---
 
-### 1. Clone & Set Up Environment
+## 🏗️ Architecture
+
+| Stage | Implementation |
+| :--- | :--- |
+| **Document Loader** | `PyPDFLoader` (preserves real uploaded filename & 1-indexed page metadata) |
+| **Chunking** | `RecursiveCharacterTextSplitter` (default `chunk_size=1000`, `chunk_overlap=150`, tunable in UI) |
+| **Embeddings** | `text-embedding-3-small` (OpenAI) or `nomic-embed-text` (Ollama) |
+| **Vector Store** | `FAISS` (`faiss-cpu`) stored in `st.session_state` |
+| **Retrieval** | Dense Retrieval with **MMR** (`k=4`, tunable in UI) |
+| **Generation** | Grounded, conflict-aware `ChatPromptTemplate` with `ChatOpenAI` or `ChatOllama` |
+
+---
+
+## 🚀 Run Locally
+
+### 1. Clone the Repository
 ```bash
-git clone [https://github.com/](https://github.com/)<your-username>/multi-rag.git
-cd multi-rag
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+git clone [https://github.com/udhayakumarpanneerselvamuk-eng/multi-pdf-rag-app.git](https://github.com/udhayakumarpanneerselvamuk-eng/multi-pdf-rag-app.git)
+cd multi-pdf-rag-app
