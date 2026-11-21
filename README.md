@@ -23,6 +23,10 @@ A single-file Retrieval-Augmented Generation (RAG) web application built with **
 ### How It Works
 ![How Multi-PDF RAG Works](assets/rag-architecture.jpg)
 
+
+https://github.com/user-attachments/assets/1f0487ec-36c3-4e09-b6ea-2465c7ceff78
+
+
 ---
 
 ## 🏗️ Architecture
