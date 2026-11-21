@@ -37,3 +37,11 @@ A single-file Retrieval-Augmented Generation (RAG) web application built with **
 ```bash
 git clone [https://github.com/udhayakumarpanneerselvamuk-eng/multi-pdf-rag-app.git](https://github.com/udhayakumarpanneerselvamuk-eng/multi-pdf-rag-app.git)
 cd multi-pdf-rag-app
+
+## 📸 Demo
+
+### App Screenshot (Answer with Sources)
+![Multi-PDF RAG Screenshot](assets/demo-screenshot.png)
+
+### How It Works
+![How Multi-PDF RAG Works](assets/rag-architecture.jpg)
